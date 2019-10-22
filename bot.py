@@ -1,14 +1,16 @@
 from Lyne.lib.client import Client
 from Lyne.dependencies.Lyne.ttypes import OpType
 
-x = Client(
+account = Client(
     "EK8UQbGFwAj4dOOwkCme.idD7rqcO/flZ+HSQWA/z7G.Vf/2DXOPBZQnaxHYr7qnNvG9qiDwE8QYTCwyUdPLjw0=")
 
 
 def sendMessage(op):
     msg = op.message
     if msg.text == "Ping":
-        x.talk.sendMessage(msg.to, "Pong")
+        account.talk.sendMessage(msg.to, "Pong")
+    elif msg.text == "Hi":
+        account.talk.sendMessage(msg.to, "Hello")
 
 
-x.poll.addInterrupt(OpType.SEND_MESSAGE, sendMessage)
+account.poll.addInterrupt(OpType.SEND_MESSAGE, sendMessage)

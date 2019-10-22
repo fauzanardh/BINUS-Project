@@ -1,8 +1,8 @@
 from Lyne.dependencies.Lyne import AuthService, TalkService
 from Lyne.lib.ThriftBase.base import ThriftBase
 from Lyne.dependencies.Lyne.ttypes import LoginRequest, LoginType, IdentityProvider
-
 from Lyne.lib.util.http_request import getJsonOnline
+from Lyne.lib.exception import LyneException
 
 
 class Auth(ThriftBase):
@@ -26,13 +26,16 @@ class Auth(ThriftBase):
         accessKey = getJsonOnline("https://gd2.line.naver.jp/Q", _headers)
         # creating AuthService using the /api/v4p/rs path
         _auth = self.createService("/api/v4p/rs", AuthService, _headers)
-        logReq = LoginRequest()
-        logReq.type = LoginType.QRCODE
-        logReq.keepLoggedIn = True
-        logReq.identityProvider = IdentityProvider.LINE
-        logReq.accessLocation = "1.1.1.1"
-        logReq.systemName = "Lyne"
-        logReq.verifier = accessKey["result"]["verifier"]
-        logReq.e2eeVersion = 0
+        try:
+            logReq = LoginRequest()
+            logReq.type = LoginType.QRCODE
+            logReq.keepLoggedIn = True
+            logReq.identityProvider = IdentityProvider.LINE
+            logReq.accessLocation = "1.1.1.1"
+            logReq.systemName = "Lyne"
+            logReq.verifier = accessKey["result"]["verifier"]
+            logReq.e2eeVersion = 0
+        except KeyError:
+            raise LyneException("Login failed!")
         # login using the loginZ function and LoginRequest as the parameter
         return _auth.loginZ(logReq)
