@@ -17,9 +17,9 @@ class ThriftBase(object):
             }
         # setting the headers for the transport
         transport.setCustomHeaders(headers)
-        # initiating the facotry for CompactProtocol
+        # initiating the factory for CompactProtocol
         factory = TCompactProtocolFactory()
         # getting the CompactProtocol
         protocol = factory.getProtocol(transport)
-        # initiating a new service client using the protocol provided
+        # initiating a new client using the protocol provided
         return serviceFunc.Client(protocol)
