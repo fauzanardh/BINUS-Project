@@ -41,7 +41,7 @@ def recvMessage(op):
         # send a message to msg.to with text of Pong
         account.talk.sendMessage(msg.to, "Pong")
 
-# and the lasting you have to do is add the function to the interrupt dict in the poller
+# and the last thing you have to do is add the function to the interrupt dict in the poller
 # OpType.RECEIVE_MESSAGE is referring to when you get a message
 account.poll.addInterrupt(OpType.RECEIVE_MESSAGE, recvMessage)
 ```
