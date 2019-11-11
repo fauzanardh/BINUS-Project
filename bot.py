@@ -1,16 +1,17 @@
 from Lyne.lib.client import Client
 from Lyne.dependencies.Lyne.ttypes import OpType
 
-account = Client(
-    "EK8UQbGFwAj4dOOwkCme.idD7rqcO/flZ+HSQWA/z7G.Vf/2DXOPBZQnaxHYr7qnNvG9qiDwE8QYTCwyUdPLjw0=")
+
+# leave empty (without argument) if you want to login
+account = Client()
 
 
-def sendMessage(op):
+# creating a new interrupt function
+def recvMessage(op):
     msg = op.message
     if msg.text == "Ping":
         account.talk.sendMessage(msg.to, "Pong")
-    elif msg.text == "Hi":
-        account.talk.sendMessage(msg.to, "Hello")
 
 
-account.poll.addInterrupt(OpType.SEND_MESSAGE, sendMessage)
+# adding the function to the poller
+account.poll.addInterrupt(OpType.RECEIVE_MESSAGE, recvMessage)
